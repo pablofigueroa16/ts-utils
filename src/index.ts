@@ -1,3 +1,3 @@
-export const fn = () => {
-    console.log('hello world')
-}
+export const fn = (string: string) => {
+	console.log("hello world", string);
+};

@@ -1,15 +1,19 @@
 {
-  "name": "ts-utils",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "build": "tsc && vite build"
-  },
-  "devDependencies": {
-    "@types/node": "^22.7.4",
-    "typescript": "^5.5.3",
-    "vite": "^5.4.1",
-    "vite-plugin-dts": "^4.2.3"
-  }
+	"name": "ts-utils",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"build": "tsc && vite build",
+		"lint": "biome lint --write ./src",
+		"format": "biome format --write ./src",
+		"check:types": "biome check --write ./src && tsc --noEmit"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.3",
+		"@types/node": "^22.7.4",
+		"typescript": "^5.5.3",
+		"vite": "^5.4.1",
+		"vite-plugin-dts": "^4.2.3"
+	}
 }
