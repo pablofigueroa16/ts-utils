@@ -1,3 +1,2 @@
-export const fn = (string: string) => {
-	console.log("hello world", string);
-};
+export * from "./types";
+export * from "./check";
