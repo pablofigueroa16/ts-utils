@@ -8,16 +8,21 @@
 		"lint": "biome lint --write ./src",
 		"format": "biome format --write ./src",
 		"check:types": "biome check --write ./src && tsc --noEmit",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"test": "vitest run --coverage",
+		"test:watch": "vitest --watch"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
 		"@types/node": "^22.7.4",
+		"@vitest/coverage-v8": "2.1.2",
 		"husky": "^8.0.0",
+		"jsdom": "^25.0.1",
 		"typescript": "^5.5.3",
 		"vite": "^5.4.1",
-		"vite-plugin-dts": "^4.2.3"
+		"vite-plugin-dts": "^4.2.3",
+		"vitest": "^2.1.2"
 	}
 }
