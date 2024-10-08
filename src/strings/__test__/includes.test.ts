@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { includes } from "../includes";
+import { includes } from "@/strings";
 
 describe("includes", () => {
 	it("should return true if the string includes the substring", () => {

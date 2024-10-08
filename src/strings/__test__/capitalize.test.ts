@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { capitalize } from "../capitalize";
+import { capitalize } from "@/strings";
 
 describe("capitalize", () => {
 	it("should capitalize the first letter of each word in the string", () => {
