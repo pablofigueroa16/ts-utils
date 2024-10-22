@@ -1,3 +1,1 @@
-export const fn = () => {
-	console.log("fn");
-};
+export type AnyFunction = (...args: unknown[]) => unknown;
