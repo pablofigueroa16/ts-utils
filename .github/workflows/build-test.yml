@@ -1,0 +1,32 @@
+name: Main Workflow
+
+on: [pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+      
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Clean up node_modules, package-lock.json and yarn-lock.json
+        run: |
+          rm -rf node_modules
+          rm -rf package-lock.json
+          rm -rf yarn.lock.json
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
+      - name: Run mutation tests
+        run: npm run test:mutation
+      - name: Build
+        run: npm run build
