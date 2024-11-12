@@ -1,5 +1,5 @@
 {
-	"name": "ts-utils",
+	"name": "lv-ts-utils",
 	"version": "0.0.1",
 	"type": "module",
 	"main": "./dist/ts-utils.js",
