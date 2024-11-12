@@ -1,8 +1,19 @@
 {
 	"name": "ts-utils",
-	"private": true,
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"type": "module",
+	"main": "./dist/ts-utils.js",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/ts-utils.js",
+			"exports": "./dist/ts-utils.js"
+		}
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/"
+	},
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc && vite build",
 		"lint": "biome lint --write ./src",
