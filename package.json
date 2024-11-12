@@ -10,12 +10,15 @@
 		"check:types": "biome check --write ./src && tsc --noEmit",
 		"prepare": "husky install",
 		"test": "vitest run --coverage",
-		"test:watch": "vitest --watch"
+		"test:watch": "vitest --watch",
+		"test:mutation": "stryker run"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.3",
 		"@commitlint/cli": "^19.5.0",
 		"@commitlint/config-conventional": "^19.5.0",
+		"@stryker-mutator/core": "^8.6.0",
+		"@stryker-mutator/vitest-runner": "^8.6.0",
 		"@types/node": "^22.7.4",
 		"@vitest/coverage-v8": "2.1.2",
 		"husky": "^8.0.0",
