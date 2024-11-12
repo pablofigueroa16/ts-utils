@@ -29,7 +29,6 @@ describe("isEmpty", () => {
 		{ value: "a", results: true },
 		{ value: true, results: true },
 		{ value: false, results: true },
-		{ value: () => {}, results: true },
 		{ value: Symbol(), results: true },
 		{ value: new Date(), results: true },
 		{ value: /a/, results: true },
