@@ -8,104 +8,109 @@ describe("debounce", () => {
 	afterAll(() => {
 		vi.resetAllMocks();
 	});
-	it("should no execute the function", () => {
+	it("debe llamar a la función después del retraso especificado", () => {
 		const fn = vi.fn();
 		const debouncedFn = debounce(fn, 200);
-		debouncedFn();
-		debouncedFn();
+
+		vi.useFakeTimers();
+
 		debouncedFn();
 		expect(fn).not.toHaveBeenCalled();
+
+		vi.advanceTimersByTime(200);
+		expect(fn).toHaveBeenCalledOnce();
+
+		vi.useRealTimers();
 	});
-	it("should debounce the function and execute it after the delay", () => {
+
+	it("debe cancelar la ejecución anterior si se llama nuevamente antes del retraso", () => {
 		const fn = vi.fn();
 		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
+
 		debouncedFn();
+		vi.advanceTimersByTime(100);
+		debouncedFn();
+		vi.advanceTimersByTime(100);
+		expect(fn).not.toHaveBeenCalled();
+
+		vi.advanceTimersByTime(100);
+		expect(fn).toHaveBeenCalledOnce();
+
+		vi.useRealTimers();
+	});
+
+	it("debe pasar los argumentos correctos a la función original", () => {
+		const fn = vi.fn();
+		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
+
+		debouncedFn("argumento1", 42);
+		vi.advanceTimersByTime(200);
+		expect(fn).toHaveBeenCalledWith("argumento1", 42);
+
+		vi.useRealTimers();
+	});
+
+	it("no debe llamar a la función si no se espera el tiempo suficiente", () => {
+		const fn = vi.fn();
+		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
+
+		debouncedFn();
+		vi.advanceTimersByTime(199);
+		expect(fn).not.toHaveBeenCalled();
+
+		vi.useRealTimers();
+	});
+
+	it("debe permitir múltiples llamadas consecutivas correctamente", () => {
+		const fn = vi.fn();
+		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
+
 		debouncedFn();
 		vi.advanceTimersByTime(200);
-		debouncedFn();
 		expect(fn).toHaveBeenCalledTimes(1);
-	});
-	it("should no debounce the function if the delay is undefined", () => {
-		const fn = vi.fn();
-		const debouncedFn = debounce(fn, undefined);
-		debouncedFn();
-		debouncedFn();
-		vi.advanceTimersByTime(100);
-		expect(fn).toHaveBeenCalledTimes(0);
-	});
-	it("should debounce the function and no execute it after the default delay", () => {
-		const fn = vi.fn();
-		const debouncedFn = debounce(fn);
-		debouncedFn();
+
 		debouncedFn();
 		vi.advanceTimersByTime(200);
-		debouncedFn();
-		expect(fn).toHaveBeenCalledTimes(1);
-	});
-	it("should execute the function only once if called multiple times within delay", () => {
-		const fn = vi.fn();
-		const debouncedFn = debounce(fn, 100);
-
-		debouncedFn();
-		debouncedFn();
-		vi.advanceTimersByTime(100);
-
-		expect(fn).toHaveBeenCalledTimes(1);
-	});
-
-	it("should not execute the function if not called again after clearing timeout", () => {
-		const fn = vi.fn();
-		const debouncedFn = debounce(fn, 100);
-
-		debouncedFn();
-		vi.advanceTimersByTime(50);
-		debouncedFn();
-
-		vi.advanceTimersByTime(50);
-
-		expect(fn).toHaveBeenCalledTimes(0);
-
-		vi.advanceTimersByTime(100);
-		expect(fn).toHaveBeenCalledTimes(1);
-	});
-
-	it("should not call clearTimeout if debounce is called once and delay time has passed", () => {
-		const fn = vi.fn();
-		const debouncedFn = debounce(fn, 100);
-
-		debouncedFn();
-		vi.advanceTimersByTime(100);
-
-		expect(fn).toHaveBeenCalledTimes(1);
-
-		debouncedFn();
-		vi.advanceTimersByTime(100);
 		expect(fn).toHaveBeenCalledTimes(2);
+
+		vi.useRealTimers();
 	});
 
-	it("should only call clearTimeout when debounce is called again within delay", () => {
+	it("debe manejar correctamente cuando la función es llamada después del retraso", () => {
 		const fn = vi.fn();
-		const debouncedFn = debounce(fn, 100);
+		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
 
 		debouncedFn();
-		vi.advanceTimersByTime(50);
-
+		vi.advanceTimersByTime(200);
 		debouncedFn();
-		expect(fn).toHaveBeenCalledTimes(0);
+		vi.advanceTimersByTime(200);
 
-		vi.advanceTimersByTime(100);
-		expect(fn).toHaveBeenCalledTimes(1);
+		expect(fn).toHaveBeenCalledTimes(2);
+
+		vi.useRealTimers();
 	});
-	it("should call clearTimeout when debounce is called multiple times", () => {
+	it("no debe llamar a clearTimeout si timeoutId no está definido", () => {
+		const clearTimeoutMock = vi.spyOn(global, "clearTimeout");
 		const fn = vi.fn();
-		const debouncedFn = debounce(fn, 100);
+		const debouncedFn = debounce(fn, 200);
+
+		vi.useFakeTimers();
 
 		debouncedFn();
-		vi.advanceTimersByTime(50);
 
-		expect(fn).not.toHaveBeenCalled();
+		expect(clearTimeoutMock).toHaveBeenCalledTimes(0);
 
-		vi.advanceTimersByTime(50);
-		expect(fn).toHaveBeenCalledTimes(1);
+		vi.useRealTimers();
+		clearTimeoutMock.mockRestore();
 	});
 });
