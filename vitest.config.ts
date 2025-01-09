@@ -5,7 +5,7 @@ export default mergeConfig(
 	defineConfig({
 		test: {
 			globals: true,
-			environment: "jsdom", //emular tiempos
+			environment: "jsdom",
 			coverage: {
 				thresholds: {
 					statements: 50,
